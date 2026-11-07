@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Demonstration - Simulated Ransomware</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f14;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: #181824;
+            border: 2px solid #ff3344;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255, 51, 68, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #cc001b, #800010);
+            padding: 24px;
+            text-align: center;
+            border-bottom: 2px solid #ff3344;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: #ffcccc;
+            font-size: 0.95rem;
+        }
+
+        .content {
+            padding: 28px 24px;
+        }
+
+        .timer-box {
+            background: #0f0f17;
+            border: 1px solid #33334d;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .timer-box p {
+            color: #aaa;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .timer {
+            font-size: 2.4rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: #ff3344;
+        }
+
+        .alert-details {
+            background: rgba(255, 51, 68, 0.08);
+            border-left: 4px solid #ff3344;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #dddddd;
+        }
+
+        .demand-card {
+            background: #202030;
+            border: 1px solid #33334d;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .demand-card h3 {
+            color: #ffaa00;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .demand-card p {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 12px;
+        }
+
+        .wallet-address {
+            background: #12121c;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #00ffcc;
+            word-break: break-all;
+            border: 1px dashed #00ffcc44;
+            text-align: center;
+        }
+
+        .demo-banner {
+            margin-top: 10px;
+            padding: 18px;
+            background: rgba(0, 204, 136, 0.1);
+            border: 1px solid #00cc88;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .demo-banner h2 {
+            color: #00ffa3;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .demo-banner p {
+            color: #d0f5e8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .reveal-btn {
+            background: #00cc88;
+            color: #0c1b15;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .reveal-btn:hover {
+            background: #00ffaa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 170, 0.3);
+        }
+
+        .lesson-panel {
+            display: none;
+            margin-top: 20px;
+            background: #1b263b;
+            border: 1px solid #415a77;
+            border-radius: 8px;
+            padding: 20px;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson-panel h3 {
+            color: #e0e1dd;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #415a77;
+            padding-bottom: 6px;
+        }
+
+        .lesson-panel ul {
+            padding-left: 20px;
+            color: #e0e1dd;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #777788;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ YOUR FILES ARE ENCRYPTED!</h1>
+            <p>Critical Security Alert — Access Suspended</p>
+        </div>
+
+        <div class="content">
+            <div class="timer-box">
+                <p>Time Remaining Before Permanent File Loss</p>
+                <div class="timer" id="countdown">09:59</div>
+            </div>
+
+            <div class="alert-details">
+                All your documents, spreadsheets, photos, and critical data have been locked with AES-256 encryption. Attempting to restart or edit files will result in permanent destruction.
+            </div>
+
+            <div class="demand-card">
+                <h3>Ransom Requirement</h3>
+                <p>To acquire the decryption key, send <strong>$100 USD (ABA Bank / Crypto equivalent)</strong> to the following address:</p>
+                <div class="wallet-address">ABA Pay ID: 000-123-456 (Simulated Demo)</div>
+            </div>
+
+            <div class="demo-banner">
+                <h2>🟢 DON'T PANIC! THIS IS A TRAINING DEMO</h2>
+                <p>Your device is completely safe. This screen demonstrates how ransomware locks down systems and uses urgency to panic victims.</p>
+                <button class="reveal-btn" onclick="toggleLesson()">Click to Unlock Training Lesson</button>
+            </div>
+
+            <div class="lesson-panel" id="lessonPanel">
+                <h3>🎓 What You Should Learn From This:</h3>
+                <ul>
+                    <li><strong>Quishing (QR Phishing):</strong> QR codes can lead directly to malicious links just like email attachments. Always verify before scanning unexpected codes.</li>
+                    <li><strong>Do Not Pay:</strong> Paying ransom money funds criminals and never guarantees file recovery.</li>
+                    <li><strong>Disconnect Immediately:</strong> If you ever see a real ransom screen, unplug your network cable or disconnect Wi-Fi to stop it from spreading.</li>
+                    <li><strong>Report Right Away:</strong> Inform your organization's IT / Cybersecurity team immediately.</li>
+                </ul>
+            </div>
+
+            <div class="footer-note">
+                Cybersecurity Awareness Group Training | Non-Technical Staff Workshop Demo
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple countdown simulation
+        let timeInSeconds = 599; // 9 min 59 sec
+        const timerElement = document.getElementById('countdown');
+
+        setInterval(() => {
+            if (timeInSeconds > 0) {
+                timeInSeconds--;
+                let minutes = Math.floor(timeInSeconds / 60);
+                let seconds = timeInSeconds % 60;
+                timerElement.innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+        }, 1000);
+
+        function toggleLesson() {
+            const panel = document.getElementById('lessonPanel');
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+                panel.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
